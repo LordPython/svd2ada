@@ -665,7 +665,7 @@ package body Ada_Gen is
             end if;
 
             if F.Is_Volatile_Full_Access then
-              Ada.Text_IO.Put (File, " with Volatile_Full_Access");
+               Ada.Text_IO.Put (File, " with Volatile_Full_Access");
             end if;
 
             Ada.Text_IO.Put_Line (File, ";");
@@ -811,9 +811,13 @@ package body Ada_Gen is
             end if;
             Ada.Text_IO.Put (File, (1 .. 4 * 3 => ' '));
             Ada.Text_IO.Put_Line
-              (File, To_String (F.Id) & " : " &
-                 (if F.Is_Aliased then "aliased " else "") &
-                   To_String (F.Typ) & (if F.Is_Volatile_Full_Access then " with Volatile_Full_Access" else "") & ";");
+               (File, To_String (F.Id) & " : " &
+                  (if F.Is_Aliased then "aliased " else "") &
+                  To_String (F.Typ) &
+                  (if F.Is_Volatile_Full_Access
+                   then " with Volatile_Full_Access"
+                   else "") &
+                  ";");
          end loop;
       end loop;
 
