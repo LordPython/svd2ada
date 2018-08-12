@@ -210,7 +210,8 @@ package Ada_Gen is
       LSB         : Natural;
       MSB         : Natural;
       Is_Aliased  : Boolean;
-      Comment     : String := "");
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False);
 
    procedure Add_Field
      (Rec         : in out Ada_Type_Record'Class;
@@ -221,7 +222,8 @@ package Ada_Gen is
       MSB         : Natural;
       Default     : Unsigned;
       Is_Aliased  : Boolean;
-      Comment     : String := "");
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False);
    procedure Add_Field
      (Rec         : in out Ada_Type_Record'Class;
       Id          : String;
@@ -231,7 +233,8 @@ package Ada_Gen is
       MSB         : Natural;
       Default     : Unbounded_String;
       Is_Aliased  : Boolean;
-      Comment     : String := "");
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False);
    --  Adds a new field to the record 'rec'
    --  Id : The ID of the field
    --  Typ : The base type
@@ -271,7 +274,8 @@ package Ada_Gen is
       LSB         : Natural;
       MSB         : Natural;
       Is_Aliased  : Boolean;
-      Comment     : String := "");
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False);
 
    overriding function Is_Similar
      (T1, T2 : Ada_Type_Union) return Boolean;
@@ -530,6 +534,7 @@ private
       Default     : Unbounded_String;
       Is_Aliased  : Boolean;
       Comment     : Ada_Comment;
+      Is_Volatile_Full_Access : Boolean;
    end record;
 
    function "=" (R1, R2 : Record_Field) return Boolean;

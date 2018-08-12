@@ -655,17 +655,20 @@ package body Ada_Gen is
                begin
                   if Line'Length + 5 + Val'Length >= Max_Width then
                      Ada.Text_IO.Put_Line (File, " :=");
-                     Ada.Text_IO.Put_Line (File, (1 .. Id'Length + 10 => ' ') &
-                                             Val & ";");
+                     Ada.Text_IO.Put (File, (1 .. Id'Length + 10 => ' ') &
+                                             Val);
                   else
-                     Ada.Text_IO.Put_Line
-                       (File, " := " & To_String (F.Default) & ";");
+                     Ada.Text_IO.Put
+                       (File, " := " & To_String (F.Default));
                   end if;
                end;
-
-            else
-               Ada.Text_IO.Put_Line (File, ";");
             end if;
+
+            if F.Is_Volatile_Full_Access then
+              Ada.Text_IO.Put (File, " with Volatile_Full_Access");
+            end if;
+
+            Ada.Text_IO.Put_Line (File, ";");
          end;
       end loop;
    end Dump_Record_Fields;
@@ -810,7 +813,7 @@ package body Ada_Gen is
             Ada.Text_IO.Put_Line
               (File, To_String (F.Id) & " : " &
                  (if F.Is_Aliased then "aliased " else "") &
-                   To_String (F.Typ) & ";");
+                   To_String (F.Typ) & (if F.Is_Volatile_Full_Access then " with Volatile_Full_Access" else "") & ";");
          end loop;
       end loop;
 
@@ -2016,7 +2019,8 @@ package body Ada_Gen is
       Has_Default : Boolean;
       Default     : Unbounded_String;
       Is_Aliased  : Boolean;
-      Comment     : String := "")
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False)
    is
       Idx     : Natural := 0;
       The_Id  : constant Unbounded_String :=
@@ -2039,7 +2043,8 @@ package body Ada_Gen is
           Has_Default => Has_Default,
           Default     => Default,
           Is_Aliased  => Is_Aliased,
-          Comment     => New_Comment (Comment, Strip => True)));
+          Comment     => New_Comment (Comment, Strip => True),
+          Is_Volatile_Full_Access => Is_Volatile_Full_Access));
    end Add_Field_Internal;
 
    ---------------
@@ -2054,7 +2059,8 @@ package body Ada_Gen is
       LSB         : Natural;
       MSB         : Natural;
       Is_Aliased  : Boolean;
-      Comment     : String := "")
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False)
    is
    begin
       Add_Field_Internal
@@ -2067,7 +2073,8 @@ package body Ada_Gen is
          Has_Default => False,
          Default     => Null_Unbounded_String,
          Is_Aliased  => Is_Aliased,
-         Comment     => Comment);
+         Comment     => Comment,
+         Is_Volatile_Full_Access => Is_Volatile_Full_Access);
    end Add_Field;
 
    ---------------
@@ -2083,7 +2090,8 @@ package body Ada_Gen is
       MSB         : Natural;
       Default     : Unsigned;
       Is_Aliased  : Boolean;
-      Comment     : String := "")
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False)
    is
    begin
       Add_Field_Internal
@@ -2096,7 +2104,8 @@ package body Ada_Gen is
          Has_Default => True,
          Default     => To_Unbounded_String (To_Hex (Default)),
          Is_Aliased  => Is_Aliased,
-         Comment     => Comment);
+         Comment     => Comment,
+         Is_Volatile_Full_Access => Is_Volatile_Full_Access);
    end Add_Field;
 
    ---------------
@@ -2112,7 +2121,8 @@ package body Ada_Gen is
       MSB         : Natural;
       Default     : Unbounded_String;
       Is_Aliased  : Boolean;
-      Comment     : String := "")
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False)
    is
    begin
       Add_Field_Internal
@@ -2125,7 +2135,8 @@ package body Ada_Gen is
          Has_Default => True,
          Default     => Default,
          Is_Aliased  => Is_Aliased,
-         Comment     => Comment);
+         Comment     => Comment,
+         Is_Volatile_Full_Access => Is_Volatile_Full_Access);
    end Add_Field;
 
    ---------
@@ -2200,7 +2211,8 @@ package body Ada_Gen is
       LSB         : Natural;
       MSB         : Natural;
       Is_Aliased  : Boolean;
-      Comment     : String := "")
+      Comment     : String := "";
+      Is_Volatile_Full_Access : Boolean := False)
    is
       Idx     : Natural := 0;
       The_Id  : constant Unbounded_String :=
@@ -2225,7 +2237,8 @@ package body Ada_Gen is
           Has_Default => False,
           Default     => Null_Unbounded_String,
           Is_Aliased  => Is_Aliased,
-          Comment     => New_Comment (Comment, Strip => True)));
+          Comment     => New_Comment (Comment, Strip => True),
+          Is_Volatile_Full_Access => Is_Volatile_Full_Access));
    end Add_Field;
 
    ----------------

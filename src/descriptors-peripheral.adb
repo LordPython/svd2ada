@@ -402,7 +402,8 @@ package body Descriptors.Peripheral is
                   then Elt.Reg.Reg_Properties.Size - 1
                   else Elt.Reg.Dim * Elt.Reg.Dim_Increment * 8 - 1),
                Is_Aliased => True,
-               Comment    => To_String (Elt.Reg.Description));
+               Comment    => To_String (Elt.Reg.Description),
+               Is_Volatile_Full_Access => True);
 
          elsif Elt.Kind = Cluster_Element
            and then Elt.Cluster.Is_Overlapping
@@ -416,7 +417,8 @@ package body Descriptors.Peripheral is
                LSB        => 0,
                MSB        => Get_Size (Elt.Cluster.all) * Elt.Cluster.Dim - 1,
                Is_Aliased => True,
-               Comment    => To_String (Elt.Cluster.Description));
+               Comment    => To_String (Elt.Cluster.Description),
+               Is_Volatile_Full_Access => True);
 
          else
             case Elt.Kind is
@@ -432,7 +434,8 @@ package body Descriptors.Peripheral is
                         then Elt.Reg.Reg_Properties.Size - 1
                         else Elt.Reg.Dim * Elt.Reg.Dim_Increment * 8 - 1),
                      Is_Aliased => True,
-                     Comment    => To_String (Elt.Reg.Description));
+                     Comment    => To_String (Elt.Reg.Description),
+                     Is_Volatile_Full_Access => True);
                when Cluster_Element =>
                   Add_Field
                     (Rec,
@@ -443,7 +446,8 @@ package body Descriptors.Peripheral is
                      MSB        =>
                         Get_Size (Elt.Cluster.all) * Elt.Cluster.Dim - 1,
                      Is_Aliased => True,
-                     Comment    => To_String (Elt.Cluster.Description));
+                     Comment    => To_String (Elt.Cluster.Description),
+                     Is_Volatile_Full_Access => True);
             end case;
          end if;
       end loop;

@@ -304,7 +304,6 @@ package body Descriptors.Register is
                Reg.Fields,
                Reg.Reg_Properties);
 
-            Add_Aspect (Rec, "Volatile_Full_Access");
             Add_Size_Aspect (Rec, Reg.Reg_Properties.Size);
             Add_Bit_Order_Aspect (Rec, System.Low_Order_First);
 
